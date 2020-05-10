@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="person" class="spring.Person" init-method="init">
+        <property name="name" value="Zhangsan"/>
+        <property name="age" value="15"/>
+    </bean>
+    <!--<bean id="mybeanfactoryPostProcessor" class="spring.MyBeanFactoryPostProccessor"/>-->
+    <!--<bean id="myBeanDefinitionRegistryPostProcessors" class="spring.MyBeanDefinitionRegistryPostProcessors"/>-->
+    <!--<bean id="myBeanPostProcessor" class="spring.MyBeanPostProcessor"/>-->
+    <!--<bean id="newInstantiationAwareBeanPostProcessors" class="spring.MyInstantiationAwareBeanPostProcessors"/>-->
+    <bean id="myAspect" class="spring.MyAspect"/>
+
+    <aop:config proxy-target-class="true">
+        <aop:aspect id="myAspect" ref="myAspect">
+            <aop:pointcut id="addAllMethod" expression="execution(* spring.Person.*(..))" />
+            <aop:before method="beforeAdvie" pointcut-ref="addAllMethod" />
+            <aop:after method="afterAdvice" pointcut-ref="addAllMethod" />
+        </aop:aspect>
+    </aop:config>
+</beans>
